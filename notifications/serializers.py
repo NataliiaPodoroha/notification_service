@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from notifications.models import (
-    User,
     UserNotification,
     UserNotificationOption,
     NotificationTemplate,
