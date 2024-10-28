@@ -4,7 +4,6 @@ from notifications.models import (
     UserNotification,
     UserNotificationOption,
     UserNotificationSetting,
-    User,
 )
 
 
@@ -57,11 +56,12 @@ class NotificationService:
             template_text = translations.first().text
         else:
             template_text = notification.notification_template.txt
-
         options = {str(option.field_id): option.txt for option in notification.options.all()}
 
         try:
-            formatted_text = template_text.format(*[options.get(str(i), '') for i in range(1, len(options)+1)])
+            formatted_text = template_text
+            for key, value in options.items():
+                formatted_text = formatted_text.replace(f"{{{key}}}", value)
         except KeyError:
             formatted_text = template_text
 
